@@ -1,0 +1,3 @@
+/udf/target/
+/pipeline/target/
+*dependency-reduced-pom.xml

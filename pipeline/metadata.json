@@ -1,0 +1,32 @@
+{
+  "name": "Streaming Ingestion PubSub to BQ",
+  "description": "An Apache Beam streaming pipeline that reads JSON encoded messages from Pub/Sub, executes a simple UDF, and writes the results to a BigQuery table",
+  "parameters": [
+    {
+      "name": "inputSubscription",
+      "label": "Pub/Sub input subscription.",
+      "helpText": "Pub/Sub subscription to read from.",
+      "regexes": [
+        "[a-zA-Z][-_.~+%a-zA-Z0-9]{2,}"
+      ]
+    },
+    {
+      "name": "udfclassName",
+      "label": "FQN of a Java class name.",
+      "helpText": "A class name which implements the UDF interface and will be used to transform data before ingestion.",
+      "isOptional": true,
+      "regexes": [
+        "\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*(\\.\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)*"
+      ]
+    },
+    {
+      "name": "outputTable",
+      "label": "BigQuery output table",
+      "helpText": "BigQuery table spec to write to, in the form 'project:dataset.table'.",
+      "isOptional": true,
+      "regexes": [
+        "[^:]+:[^.]+[.].+"
+      ]
+    }
+  ]
+}
