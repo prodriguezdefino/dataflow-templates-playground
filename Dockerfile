@@ -22,5 +22,5 @@ RUN mkdir -p ${WORKDIR}/lib
 # in our case the custom UDF jar from that project
 COPY --from=build /udf-impl/target/*.jar ${WORKDIR}/lib/
 
-ENV FLEX_TEMPLATE_JAVA_CLASSPATH=/template/dataflow-pipeline-1.0-SNAPSHOT.jar
+ENV FLEX_TEMPLATE_JAVA_CLASSPATH=/template/dataflow-bundled-1.0-SNAPSHOT.jar
 ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS=${MAINCLASS}
