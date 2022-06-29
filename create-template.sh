@@ -1,0 +1,1 @@
+gcloud dataflow flex-template build $TEMPLATE_PATH --image "$TEMPLATE_IMAGE" --sdk-language <YOUR_SDK_LANGUAGE>

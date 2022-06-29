@@ -26,10 +26,10 @@
   </parent>
 
   <groupId>com.google.cloud.pso.dataflow</groupId>
-  <artifactId>udf</artifactId>
+  <artifactId>udf-impl</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>Dataflow Flex Template :: UDF</name>
+  <name>Dataflow Flex Template :: UDF Implementation</name>
 
   <build>
     <plugins>
@@ -51,8 +51,8 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.beam</groupId>
-      <artifactId>beam-sdks-java-core</artifactId>
+      <groupId>com.google.cloud.pso.dataflow</groupId>
+      <artifactId>udf</artifactId>
     </dependency>
   </dependencies>
 </project>
