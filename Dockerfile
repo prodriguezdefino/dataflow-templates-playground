@@ -21,7 +21,8 @@ COPY --from=build /build/pipeline/target/pipeline-bundled-1.0-SNAPSHOT.jar /temp
 RUN mkdir -p ${WORKDIR}/lib
 
 # copy other dependent jar files that may be needed to run the pipeline 
-# in our case the custom UDF jar from that project
+# in our case the custom UDF jar from that project, 
+# this could be downloaded from an artifactory as needed
 COPY --from=build /build/udf-impl/target/udf-impl-1.0-SNAPSHOT.jar ${WORKDIR}/lib/
 
 ENV FLEX_TEMPLATE_JAVA_CLASSPATH=/template/pipeline-bundled-1.0-SNAPSHOT.jar:/template/lib/udf-impl-1.0-SNAPSHOT.jar
