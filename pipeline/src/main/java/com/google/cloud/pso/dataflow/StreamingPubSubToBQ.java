@@ -158,10 +158,10 @@ public class StreamingPubSubToBQ {
                       // that any data coming to the processing pipeline must be valid.
                       // See `MapElements.MapWithFailures` for more details.
                       var msg = GSON.fromJson(message, PageReviewMessage.class);
-                      return Row.withSchema(schema).addValues(
-                              msg.url, // row url
-                              msg.score // row page_score
-                      ).build();
+                      return Row.withSchema(schema)
+                              .withFieldValue("url", msg.url) // row url
+                              .withFieldValue("page_score", msg.score) // row page_score
+                              .build();
                     })).setRowSchema(schema) // make sure to set the row schema for the PCollection
             // Add timestamps and bundle elements into windows.
             .apply("ExecuteUDF", ParDo.of(
