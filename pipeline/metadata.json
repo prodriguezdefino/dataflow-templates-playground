@@ -16,7 +16,7 @@
       "helpText": "A class name which implements the UDF interface and will be used to transform data before ingestion.",
       "isOptional": true,
       "regexes": [
-        "\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*(\\.\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*)*"
+        "([a-z][a-z_0-9]*\\.)*[A-Z_]($[A-Z_]|[\\w_])*"
       ]
     },
     {
