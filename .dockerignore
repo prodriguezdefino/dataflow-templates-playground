@@ -3,5 +3,4 @@
 .cache
 **metadata.json
 **target/
-create-template.sh
-launch-template.sh
+*.sh
