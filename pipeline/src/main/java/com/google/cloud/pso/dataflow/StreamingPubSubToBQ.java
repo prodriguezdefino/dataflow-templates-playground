@@ -173,7 +173,10 @@ public class StreamingPubSubToBQ {
                               .set("url", row.getString("url"))
                               .set("page_score", row.getInt32("page_score"))
                               .set("sentiment", row.getString("sentiment"))
-                              .set("processing_time", row.getDateTime("processing_time").toInstant().toString());
+                              .set("processing_time", 
+                                      Optional.ofNullable(row.getDateTime("processing_time"))
+                                              .map(dt -> dt.toInstant().toString())
+                                              .orElse(null));
                     }))
             .apply("WriteToBigQuery", BigQueryIO.writeTableRows()
                     .to(options.getOutputTable())
