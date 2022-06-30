@@ -7,6 +7,7 @@
       "label": "Pub/Sub input subscription.",
       "helpText": "Pub/Sub subscription to read from.",
       "regexes": [
+        "(projects\/)([a-zA-Z_$][a-zA-Z0-9_$-]*)\/(subscriptions\/)([a-zA-Z_$][a-zA-Z0-9_$-]*)"
       ]
     },
     {
