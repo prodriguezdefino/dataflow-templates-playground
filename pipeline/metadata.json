@@ -16,7 +16,7 @@
       "helpText": "A class name which implements the UDF interface and will be used to transform data before ingestion.",
       "isOptional": true,
       "regexes": [
-        "([a-z][a-z_0-9]*\\.)*[A-Z_]($[A-Z_]|[\\w_])*"
+        "([a-zA-Z_$][a-zA-Z\\d_$]*\\.)*[a-zA-Z_$][a-zA-Z\\d_$]*"
       ]
     },
     {
