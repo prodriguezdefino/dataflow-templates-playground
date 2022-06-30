@@ -18,6 +18,6 @@ gcloud dataflow flex-template run "streaming-pstobq-`date +%Y%m%d-%H%M%S`" \
     --project "${GCP_PROJECT}" \
     --parameters inputSubscription="${INPUT}" \
     --parameters outputTable="${OUTPUT}" \
-    --parameters udfclassName="com.google.cloud.pso.dataflow.udf.CustomUDF" \
+    --parameters UDFClassName="com.google.cloud.pso.dataflow.udf.CustomUDF" \
     --parameters enableStreamingEngine=true \
     --region "us-central1"

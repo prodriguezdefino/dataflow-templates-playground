@@ -10,7 +10,7 @@
       ]
     },
     {
-      "name": "udfClassName",
+      "name": "UDFClassName",
       "label": "FQN of a Java class name.",
       "helpText": "A class name which implements the UDF interface and will be used to transform data before ingestion.",
       "isOptional": true,
