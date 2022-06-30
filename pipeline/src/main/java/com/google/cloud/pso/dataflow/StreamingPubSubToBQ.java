@@ -124,8 +124,9 @@ public class StreamingPubSubToBQ {
               | IllegalAccessException | IllegalArgumentException
               | InstantiationException | NoSuchMethodException
               | SecurityException | InvocationTargetException ex) {
-        throw new RuntimeException(
+        LOG.error(
                 "Problems while loading the requested class name: " + className, ex);
+        return null;
       }
     }
   }
