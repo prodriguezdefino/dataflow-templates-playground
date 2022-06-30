@@ -1,4 +1,6 @@
 FROM adoptopenjdk/maven-openjdk11:latest AS build
+
+RUN mkdir /build
 ADD . /build
 WORKDIR /build
 USER root
