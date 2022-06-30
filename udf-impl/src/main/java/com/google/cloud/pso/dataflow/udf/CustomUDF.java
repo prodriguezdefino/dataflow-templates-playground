@@ -16,7 +16,7 @@ public class CustomUDF implements UDF {
             .withFieldValue("sentiment", 
                     Optional.of(row.getInt32("page_score"))
                             .map(score -> score > 5 ? "positive" : "negative").get())
-            .withFieldValue("processing_time", Instant.now().toString())
+            .withFieldValue("processing_time", Instant.now())
             .build();
   }
 
