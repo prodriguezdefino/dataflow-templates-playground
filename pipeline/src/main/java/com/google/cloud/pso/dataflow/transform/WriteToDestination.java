@@ -3,6 +3,7 @@ package com.google.cloud.pso.dataflow.transform;
 import com.google.api.services.bigquery.model.TableFieldSchema;
 import com.google.api.services.bigquery.model.TableSchema;
 import java.util.Arrays;
+import java.util.Optional;
 import org.apache.beam.sdk.io.TextIO;
 import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
 import org.apache.beam.sdk.transforms.PTransform;
@@ -23,6 +24,8 @@ public class WriteToDestination extends PTransform<PCollection<Row>, PDone> {
     BIGQUERY,
     GCS
   }
+
+  private static final Long DEFAULT_WINDOW_TIME_FILES = 1L;
 
   private final Destination destination;
   private final String destinationURL;
@@ -69,13 +72,13 @@ public class WriteToDestination extends PTransform<PCollection<Row>, PDone> {
   private void expandWriteOnGCS(PCollection<Row> input) {
     input
             .apply("1mWindow", Window
-                    .<Row>into(FixedWindows.of(Duration.standardMinutes(1L)))
-                    .withAllowedLateness(Duration.standardMinutes(1L))
+                    .<Row>into(FixedWindows.of(Duration.standardMinutes(DEFAULT_WINDOW_TIME_FILES)))
+                    .withAllowedLateness(Duration.standardMinutes(DEFAULT_WINDOW_TIME_FILES))
                     .discardingFiredPanes())
             .apply("ToJSON", ToJson.of())
             .apply("WriteToGCS", TextIO
                     .write()
-                    .to(this.destinationURL)
+                    .to(destinationURL.endsWith("/") ? destinationURL : destinationURL + "/")
                     .withWindowedWrites());
   }
 
