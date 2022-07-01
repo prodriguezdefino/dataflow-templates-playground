@@ -24,7 +24,7 @@ BUILD_TAG=$(date +"%Y-%m-%d_%H-%M-%S")
 export TEMPLATE_PATH=${TEMPLATE_FILE} 
 export TEMPLATE_IMAGE="gcr.io/${GCP_PROJECT}/${GCP_REGION}/${PIPELINE_NAME}-template:latest"
 
-GCS_TEMPLATE_PATH=gs://${BUCKET}/template/streamingpubsubtobq-template.json  
+GCS_TEMPLATE_PATH=gs://${BUCKET}/template/processingpipeline-template.json  
 
 gcloud auth configure-docker
 # Build Docker Image

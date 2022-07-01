@@ -1,4 +1,6 @@
 {
-  "url": "http://placehold.it/32x32",
-  "score": {{integer(0, 10)}}
+  "url": function url() {
+    return "http://"+{{lorem(1, "words")}}+".com/"+{{lorem(1, "words")}}+"/";
+  },
+  "page_score": {{integer(0, 10)}}
 }
