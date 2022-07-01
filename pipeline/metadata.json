@@ -3,10 +3,20 @@
   "description": "An Apache Beam streaming pipeline that reads JSON encoded messages from Pub/Sub, executes a simple UDF, and writes the results to a BigQuery table",
   "parameters": [
     {
-      "name": "inputSubscription",
-      "label": "Pub/Sub input subscription.",
-      "helpText": "Pub/Sub subscription to read from.",
+      "name": "source",
+      "label": "Source type",
+      "helpText": "Select between PubSub and GCS source.",
+      "isOptional": true,
       "regexes": [
+        "GCS|PUBSUB"
+      ]
+    },
+    {
+      "name": "inputURL",
+      "label": "URL for the source",
+      "helpText": "Currently supports PubSub FQN subscriptions or GCS locations",
+      "regexes": [
+        "(projects\/)([a-zA-Z_$][a-zA-Z0-9_$-]*)\/(subscriptions\/)([a-zA-Z_$][a-zA-Z0-9_$-]*)|(gs:\/\/)(([a-zA-Z_$][a-zA-Z0-9_$-]*)\/?)+"
       ]
     },
     {
@@ -19,12 +29,21 @@
       ]
     },
     {
-      "name": "outputTable",
-      "label": "BigQuery output table",
-      "helpText": "BigQuery table spec to write to, in the form 'project:dataset.table'.",
+      "name": "destination",
+      "label": "Destination type",
+      "helpText": "Select between BigQuery and GCS destination.",
       "isOptional": true,
       "regexes": [
-        "[^:]+.[^.]+[.].+"
+        "GCS|BIGQUERY"
+      ]
+    },
+    {
+      "name": "outputURL",
+      "label": "URL for the destination",
+      "helpText": "Currently supports BigQuery tables like 'project.dataset.table' or GCS locations like gs://folder/.",
+      "isOptional": true,
+      "regexes": [
+        "[^:]+.[^.]+[.].+|(gs:\/\/)(([a-zA-Z_$][a-zA-Z0-9_$-]*)\/?)+"
       ]
     }
   ]
