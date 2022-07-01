@@ -12,7 +12,7 @@ RUN mvn clean package -Dmaven.test.skip=true
 FROM gcr.io/dataflow-templates-base/java11-template-launcher-base:latest
 
 ARG WORKDIR=/template
-ARG MAINCLASS=com.google.cloud.pso.dataflow.StreamingPubSubToBQ
+ARG MAINCLASS=com.google.cloud.pso.dataflow.ProcessingPipeline
 RUN mkdir -p ${WORKDIR}
 WORKDIR ${WORKDIR}
 

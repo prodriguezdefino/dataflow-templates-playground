@@ -127,7 +127,7 @@
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.google.cloud.pso.dataflow.StreamingPubSubToBQ</mainClass>
+                  <mainClass>com.google.cloud.pso.dataflow.ProcessingPipeline</mainClass>
                 </transformer>
               </transformers>
             </configuration>

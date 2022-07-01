@@ -1,4 +1,4 @@
 {
-  "url": "http://placehold.it/32x32",
-  "score": {{integer(0, 10)}}
+  "url": "https://some.random.url/path",
+  "page_score": {{integer(0, 10)}}
 }
