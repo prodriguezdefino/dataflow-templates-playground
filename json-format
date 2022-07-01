@@ -1,6 +1,4 @@
 {
-  "url": function url() {
-    return "http://"+{{lorem(1, "words")}}+".com/"+{{lorem(1, "words")}}+"/";
-  },
+  "url": "https://some.random.url/path",
   "page_score": {{integer(0, 10)}}
 }
