@@ -46,6 +46,7 @@
     <module>udf</module>
     <module>pipeline</module>
     <module>udf-impl</module>
+    <module>udf-impl2</module>
   </modules>
     
   <dependencyManagement>

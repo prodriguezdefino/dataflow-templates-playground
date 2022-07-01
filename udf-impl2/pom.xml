@@ -26,10 +26,10 @@
   </parent>
 
   <groupId>com.google.cloud.pso.dataflow</groupId>
-  <artifactId>udf-impl</artifactId>
+  <artifactId>udf-impl2</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>Dataflow Flex Template :: Custom Included UDF</name>
+  <name>Dataflow Flex Template :: Custom Included UDF 2</name>
 
   <build>
     <plugins>

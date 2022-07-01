@@ -32,6 +32,9 @@ docker image build -t $TEMPLATE_IMAGE .
 # Push image to Google Cloud Registry
 docker push $TEMPLATE_IMAGE
 
+# copy the secondary UDF jar to a GCS location for dynamic download from pipeline's exec
+gsutil udf-impl2/target/*.jar gs://${BUCKET}/template/
+
 gcloud dataflow flex-template build $GCS_TEMPLATE_PATH \
   --image "$TEMPLATE_IMAGE" \
   --sdk-language JAVA \
