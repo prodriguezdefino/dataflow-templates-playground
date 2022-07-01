@@ -13,11 +13,13 @@ INPUT=$3
 OUTPUT=$4
 
 
-gcloud dataflow flex-template run "streaming-pstobq-`date +%Y%m%d-%H%M%S`" \
+gcloud dataflow flex-template run "process-pstobq-`date +%Y%m%d-%H%M%S`" \
     --template-file-gcs-location "${TEMPLATE_LOCATION}" \
     --project "${GCP_PROJECT}" \
-    --parameters inputSubscription="${INPUT}" \
-    --parameters outputTable="${OUTPUT}" \
+    --parameters source=PUBSUB \
+    --parameters inputURL="${INPUT}" \
+    --parameters destination=BIGQUERY \
+    --parameters outputURL="${OUTPUT}" \
     --parameters UDFClassName="com.google.cloud.pso.dataflow.udf.CustomUDF" \
     --parameters enableStreamingEngine=true \
     --region "us-central1"
