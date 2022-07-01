@@ -13,21 +13,15 @@
 // limitations under the License.
 package com.google.cloud.pso.dataflow;
 
-import com.google.api.services.bigquery.model.TableFieldSchema;
-import com.google.api.services.bigquery.model.TableRow;
-import com.google.api.services.bigquery.model.TableSchema;
+import com.google.cloud.pso.dataflow.transform.WriteToDestination;
 import com.google.cloud.pso.dataflow.udf.UDF;
 import com.google.gson.Gson;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.Optional;
 import org.apache.avro.reflect.Nullable;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.coders.AvroCoder;
 import org.apache.beam.sdk.coders.DefaultCoder;
-import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO;
-import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO.Write.CreateDisposition;
-import org.apache.beam.sdk.io.gcp.bigquery.BigQueryIO.Write.WriteDisposition;
 import org.apache.beam.sdk.io.gcp.pubsub.PubsubIO;
 import org.apache.beam.sdk.options.Default;
 import org.apache.beam.sdk.options.Description;
@@ -66,12 +60,22 @@ public class StreamingPubSubToBQ {
 
     void setUDFClassName(String value);
 
-    @Description("BigQuery table to write to, in the form "
-            + "'project:dataset.table' or 'dataset.table'.")
+    @Description("Destination type for the pipeline."
+            + "For BIGQUERY destination a table to "
+            + "write to is expected in the form "
+            + "'project:dataset.table' or 'dataset.table'."
+            + "For GCS destination a gs:// location is expected.")
+    @Validation.Required
+    WriteToDestination.Destination getDestination();
+    
+    void setDestination(WriteToDestination.Destination value);
+    
+    @Description("URL for the pipeline's destination, "
+            + "must conform the expectations for the destination.")
     @Default.String("")
-    String getOutputTable();
+    String getOutputURL();
 
-    void setOutputTable(String value);
+    void setOutputURL(String value);
   }
 
   @DefaultCoder(AvroCoder.class)
@@ -145,7 +149,7 @@ public class StreamingPubSubToBQ {
     LOG.info("Launching pipeline to read from {}, executing UDF {} and writing to {}",
             options.getInputSubscription(),
             options.getUDFClassName(),
-            options.getOutputTable());
+            options.getOutputURL());
 
     var pipeline = Pipeline.create(options);
     pipeline
@@ -166,27 +170,9 @@ public class StreamingPubSubToBQ {
             // Add timestamps and bundle elements into windows.
             .apply("ExecuteUDF", ParDo.of(
                     new ExecuteUDFDoFn(options.getUDFClassName()))).setRowSchema(schema)
-            // Convert the SQL Rows into BigQuery TableRows and write them to BigQuery.
-            .apply("ConvertToTableRow", MapElements.into(TypeDescriptor.of(TableRow.class))
-                    .via(row -> {
-                      return new TableRow()
-                              .set("url", row.getString("url"))
-                              .set("page_score", row.getInt32("page_score"))
-                              .set("sentiment", row.getString("sentiment"))
-                              .set("processing_time", 
-                                      Optional.ofNullable(row.getDateTime("processing_time"))
-                                              .map(dt -> dt.toInstant().toString())
-                                              .orElse(null));
-                    }))
-            .apply("WriteToBigQuery", BigQueryIO.writeTableRows()
-                    .to(options.getOutputTable())
-                    .withSchema(new TableSchema().setFields(Arrays.asList(
-                            new TableFieldSchema().setName("url").setType("STRING"),
-                            new TableFieldSchema().setName("page_score").setType("INTEGER"),
-                            new TableFieldSchema().setName("sentiment").setType("STRING"),
-                            new TableFieldSchema().setName("processing_time").setType("TIMESTAMP"))))
-                    .withCreateDisposition(CreateDisposition.CREATE_IF_NEEDED)
-                    .withWriteDisposition(WriteDisposition.WRITE_APPEND));
+            // Write to the configured destination
+            .apply("WriteToDestination", WriteToDestination
+                    .create(options.getDestination(), options.getOutputURL()));
 
     // For a Dataflow Flex Template, do NOT waitUntilFinish().
     pipeline.run();
